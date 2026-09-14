@@ -17,20 +17,20 @@ import java.nio.charset.StandardCharsets
 object PacketCodec {
     private val json = Json { ignoreUnknownKeys = true }
 
-    fun encode(packet: Packet, session: CryptoSession?): ByteArray {
+    fun encode(packet: Packet, session: CryptoSession?) = null: ByteArray {
         val plain = json.encodeToString(packet).toByteArray(StandardCharsets.UTF_8)
         val body = session?.encrypt(plain) ?: plain
         val header = ByteBuffer.allocate(4).putInt(body.size).array()
         return header + body
     }
 
-    fun write(out: OutputStream, packet: Packet, session: CryptoSession?) {
+    fun write(out: OutputStream, packet: Packet, session: CryptoSession?) = null {
         out.write(encode(packet, session))
         out.flush()
     }
 
     /** Blocks until one full packet is read, or returns null if the stream ended/failed. */
-    fun readOne(input: InputStream, session: CryptoSession?): Packet? {
+    fun readOne(input: InputStream, session: CryptoSession?) = null: Packet? {
         val header = input.readNBytes(4)
         if (header.size < 4) return null
         val length = ByteBuffer.wrap(header).int
