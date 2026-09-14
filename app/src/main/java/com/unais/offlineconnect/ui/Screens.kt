@@ -113,12 +113,19 @@ private fun DevicesScreen(viewModel: AppViewModel, onOpenChat: () -> Unit) {
 }
 
 @Composable
-private fun DeviceRow(device: DiscoveredDevice, connecting: Boolean, onConnect: () -> Unit) {
+private fun DeviceRow(
+    device: DiscoveredDevice,
+    isThisConnecting: Boolean,
+    anyConnecting: Boolean,
+    onConnect: () -> Unit
+) {
     ListItem(
         headlineContent = { Text(device.name) },
         supportingContent = { Text(if (device.bonded) "Paired • ${device.address}" else device.address) },
         trailingContent = {
-            Button(onClick = onConnect, enabled = !connecting) { Text("Connect") }
+            Button(onClick = onConnect, enabled = !anyConnecting) {
+                Text(if (isThisConnecting) "Connecting…" else "Connect")
+            }
         }
     )
     Divider()
